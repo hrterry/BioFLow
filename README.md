@@ -10,7 +10,7 @@ This repository contains the official implementation of **BioFlow**, a biologica
 
 ---
 
-## 🔍 Overview
+## Overview
 
 Spatial transcriptomics (ST) prediction from histology images is typically approached
 using regression or unconstrained generative models (e.g., diffusion or standard 
@@ -24,7 +24,7 @@ multimodal conditioning.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Support-preserving flow dynamics**  
   A reparameterized velocity field guarantees non-negative expression throughout the 
@@ -37,17 +37,22 @@ multimodal conditioning.
   Achieves state-of-the-art accuracy while requiring **2–5× less compute** than flow-based 
   baselines and up to **2000×** less compute than diffusion-based models.
 
-- **Biologically aligned ZINB prior**  
-  Initialization uses a Zero-Inflated Negative Binomial distribution matching the 
-  properties of real gene expression counts.
 
 ---
 
-## 📦 Environment Setup
+## Environment Setup
 
-We recommend using Python ≥ 3.9 and PyTorch ≥ 2.0.
+The provided conda environment is fully compatible with BioFlow and all baseline 
+models (STFlow, MERGE, TRIPLEX, and STEM), ensuring a unified and reproducible 
+experimental setup. Note that external feature extractors (UNI, CONCH) and 
+preprocessing utilities used in prior work (e.g., HEST for dataset construction) 
+are not included in this repository and should be installed separately by cloning 
+their respective GitHub repositories.
 
 ```bash
-conda create -n bioflow python=3.9 -y
+
+conda env create -n bioflow -f BioFlow.yml
 conda activate bioflow
-pip install -r requirements.txt
+
+## Download Dataset
+
