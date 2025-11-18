@@ -31,8 +31,8 @@ multimodal conditioning.
   A lightweight DiT-style backbone processes WSI-derived features and learnable gene tokens.
 
 - **Efficiency frontier**  
-  Achieves state-of-the-art accuracy while requiring **2–5× less compute** than flow-based 
-  baselines and up to **2000×** less compute than diffusion-based models.
+  Achieves state-of-the-art accuracy while requiring **4–100× less compute** than flow-based 
+  baselines and up to **10,000×** less compute than diffusion-based models.
 
 
 ---
