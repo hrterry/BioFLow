@@ -1,8 +1,5 @@
 # BioFLow
 Official implementation of the BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction. Released as part of an anonymous CVPR submission.
-# BioFlow (Anonymous CVPR Submission)
-
-This repository contains the official implementation of **BioFlow**, a biologically valid generative flow-matching framework for histology-conditioned spatial transcriptomics prediction.
 
 > ⚠️ This codebase is released as part of an **anonymous submission**.  
 > All identifying information has been removed to comply with the double-blind 
