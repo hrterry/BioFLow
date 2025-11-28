@@ -1,4 +1,4 @@
-name: STFLOW
+name: BioFlow
 channels:
   - defaults
   - conda-forge
