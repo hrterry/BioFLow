@@ -1,5 +1,5 @@
 # BioFLow
-Official PyTorch implementation of the BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction. Released as part of an anonymous CVPR submission.
+Official PyTorch implementation of the BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction. Released as part of an anonymous MICCAI submission.
 
 > ⚠️ This codebase is released as part of an **anonymous submission**.  
 > All identifying information has been removed to comply with the double-blind 
