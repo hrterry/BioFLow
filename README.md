@@ -1,9 +1,5 @@
 # BioFLow
-Official PyTorch implementation of the BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction. Released as part of an anonymous MICCAI submission.
-
-> ⚠️ This codebase is released as part of an **anonymous submission**.  
-> All identifying information has been removed to comply with the double-blind 
-> review policy.
+Official PyTorch implementation of BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction, published at MICCAI 2026.
 
 ---
 
@@ -29,7 +25,7 @@ multimodal conditioning.
 
 - **Efficiency frontier**  
   Achieves state-of-the-art accuracy while requiring **4–100× less compute** than flow-based 
-  baselines and up to **10,000×** less compute than diffusion-based models.
+  baselines and up to **10,00×** less compute than diffusion-based models.
 
 ---
 ## 🔥🔥🔥 Update(Dec. 2025)
@@ -37,6 +33,16 @@ multimodal conditioning.
 We have launched a project webpage that includes visualization of prediction results for three marker genes across different methods, facilitating comparison with ground truth values, as well as the proportion of negative values.
 
 > **Note:** Due to space limitations, figures that could not be included in the paper are available on the project webpage for viewing.
+
+---
+## 🔥🔥🔥 Update(June. 2025)
+
+The camera-ready version is now available.
+
+## ✅ TODO
+- Release BioFlow model weights (coming soon)
+- Add inference demo and example notebooks
+
 ---
 
 ## Environment Setup
