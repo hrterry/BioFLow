@@ -270,7 +270,7 @@ void main(){
     { in: 1.84, out: 2.84 },
     { in: 3.02, out: 4.12 }
   ];
-  const TRACK = 5.42;
+  const TRACK = 4.62;
 
   function compile(gl, type, source) {
     const shader = gl.createShader(type);
@@ -321,7 +321,7 @@ void main(){
     const resize = () => {
       width = Math.max(2, Math.round(canvas.clientWidth));
       height = Math.max(2, Math.round(canvas.clientHeight));
-      fit = lerp(.45, 1.1, clamp(width / height));
+      fit = smooth(.45, 1.1, width / height);
       const scale = Math.min(1, Math.sqrt(3686400 / (width * height)));
       canvas.width = Math.round(width * scale); canvas.height = Math.round(height * scale);
     };
@@ -355,8 +355,8 @@ void main(){
         const decay = 1 - envelope;
         const intensity = (phase > .5 ? eased * eased * eased : eased) * .62 * lerp(.6, 1, index / (BEATS.length - 1)) * powerScale * ignition;
         const pitch = phase < .5 ? 21.5 * decay : 8 * decay;
-        const spread = (phase < .5 ? .52 * decay : .1 * decay) + steer;
-        const lampHeight = (21 + 9 * clamp(1 - phase)) * hScale + (last ? 30 * riseCurve(rise) : 0);
+        const spread = (21 + 9 * clamp(1 - phase)) * hScale + (last ? 30 * riseCurve(rise) : 0);
+        const lampHeight = (phase < .5 ? .52 * decay : .1 * decay) + steer;
         for (const x of [.28, -.28]) add(x * xScale, -1.18, 0, 1, intensity, pitch, spread, lampHeight);
       }
       const layout = narrow ? 0 : smooth(.9, 1.6, aspect);
