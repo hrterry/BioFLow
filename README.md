@@ -1,6 +1,8 @@
 # BioFLow
 Official PyTorch implementation of BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction, published at MICCAI 2026.
 
+**Project page:** https://hrterry.github.io/BioFLow/
+
 ---
 
 ## Overview

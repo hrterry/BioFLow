@@ -1,0 +1,12 @@
+# Local Python and research artifacts
+__pycache__/
+*.py[cod]
+
+# Retired Next.js project-page caches
+Project-Page/.next/
+Project-Page/node_modules/
+Project-Page/next-env.d.ts
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
