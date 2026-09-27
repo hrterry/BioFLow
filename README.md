@@ -1,8 +1,8 @@
 # BioFlow
 
-**Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction**
+**A Biologically Valid Support-Preserving Flow for Histology-Conditioned Spatial Transcriptomics Prediction**
 
-[Project Page](https://hrterry.github.io/BioFLow/) · [Paper](./BioFlow-paper.pdf) · [Source Code](https://github.com/hrterry/BioFLow)
+[Project Page](https://hrterry.github.io/BioFLow/) · [MICCAI Open Access Paper](https://papers.miccai.org/miccai-2026/0109-Paper1400.html) · [Source Code](https://github.com/hrterry/BioFLow)
 
 BioFlow predicts spatial gene expression from routine H&E histology while preserving a fundamental biological constraint throughout generation: expression values must remain non-negative. This repository contains the PyTorch implementation and the interactive MICCAI 2026 project page.
 
@@ -31,8 +31,7 @@ BioFLow/
 │   ├── test.py          # evaluation metrics and sampling
 │   └── BioFlow.yml      # Conda environment
 ├── assets/              # project-page figures
-├── index.html           # static GitHub Pages site
-└── BioFlow-paper.pdf
+└── index.html           # static GitHub Pages site
 ```
 
 ## Installation
@@ -85,14 +84,27 @@ Evaluation is performed during training and through the utilities in `bioflow/te
 ## Project Status
 
 - Interactive project page: available
-- Paper PDF: available
+- MICCAI Open Access paper: available
 - Training and evaluation code: available
 - Pretrained BioFlow weights: planned
 - Inference notebook and lightweight demo: planned
 
 ## Citation
 
-If you use BioFlow, please cite the accompanying paper. The final BibTeX entry will be added when the proceedings metadata is available.
+If you use BioFlow, please cite the MICCAI 2026 paper:
+
+```bibtex
+@InProceedings{XuHao_BioFlow_MICCAI2026,
+  author    = {Xu, Haoran and Liu, Yang and Yuan, Wei and Han, Xiao},
+  title     = {BioFlow: A Biologically Valid Support-Preserving Flow for Histology-Conditioned Spatial Transcriptomics Prediction},
+  booktitle = {Medical Image Computing and Computer Assisted Intervention -- MICCAI 2026},
+  year      = {2026},
+  publisher = {Springer Nature Switzerland},
+  volume    = {LNCS 16891},
+  month     = {September},
+  pages     = {pending}
+}
+```
 
 ## License
 
