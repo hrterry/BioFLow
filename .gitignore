@@ -2,10 +2,8 @@
 __pycache__/
 *.py[cod]
 
-# Retired Next.js project-page caches
-Project-Page/.next/
-Project-Page/node_modules/
-Project-Page/next-env.d.ts
+# Retired Next.js project-page working directory
+Project-Page/
 
 # Editor and OS files
 .DS_Store
