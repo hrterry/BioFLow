@@ -1,95 +1,99 @@
-# BioFLow
-Official PyTorch implementation of BioFlow: Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction, published at MICCAI 2026.
+# BioFlow
 
-**Project page:** https://hrterry.github.io/BioFLow/
+**Biologically Valid Generative Flow for Histology-Conditioned Spatial Transcriptomics Prediction**
 
----
+[Project Page](https://hrterry.github.io/BioFLow/) · [Paper](./BioFlow-paper.pdf) · [Source Code](https://github.com/hrterry/BioFLow)
 
-## Overview
+BioFlow predicts spatial gene expression from routine H&E histology while preserving a fundamental biological constraint throughout generation: expression values must remain non-negative. This repository contains the PyTorch implementation and the interactive MICCAI 2026 project page.
 
-Spatial transcriptomics (ST) prediction from histology images is typically approached
-using generative models (e.g., diffusion or standard 
-flow matching). However, these methods suffer from a critical biological failure mode:
-their generative trajectories evolve in unconstrained real-valued space, often 
-producing **negative gene expression values**, which are biologically invalid.
+## Motivation
 
-**BioFlow** addresses this issue by enforcing *non-negative support preservation*
-throughout the entire generative trajectory while maintaining efficient and expressive
-multimodal conditioning.
+Standard diffusion and flow-matching models evolve in an unconstrained real-valued space. Even when their final predictions are clipped, intermediate trajectories may enter negative-expression regions that are biologically invalid. BioFlow modifies the learned velocity field itself so that the complete probability path remains inside the non-negative orthant.
 
----
+## Highlights
 
-## Key Features
+- **Support-preserving dynamics** — non-negativity is enforced during transport rather than repaired after sampling.
+- **Histology-conditioned prediction** — multimodal spatial modeling combines pathology-image features with tissue coordinates.
+- **Sparse-expression stability** — boundary-aware updates remain valid for genes initialized exactly at zero.
+- **Efficient generation** — the paper reports competitive prediction quality with substantially fewer sampling steps than diffusion-based alternatives.
+- **Interactive evidence** — the [project page](https://hrterry.github.io/BioFLow/) presents the method, trajectory diagnostics, spatial predictions, and efficiency results as a scroll-driven research narrative.
 
-- **Support-preserving flow dynamics**  
-  A reparameterized velocity field guarantees non-negative expression throughout the 
-  probability path.
+## Repository Structure
 
-- **Efficiency frontier**  
-  Achieves state-of-the-art accuracy while requiring **4–100× less compute** than flow-based 
-  baselines and up to **10,00×** less compute than diffusion-based models.
-
----
-## 🔥🔥🔥 Update(Dec. 2025)
-
-We have launched a project webpage that includes visualization of prediction results for three marker genes across different methods, facilitating comparison with ground truth values, as well as the proportion of negative values.
-
-> **Note:** Due to space limitations, figures that could not be included in the paper are available on the project webpage for viewing.
-
----
-## 🔥🔥🔥 Update(June. 2025)
-
-The camera-ready version is now available.
-
-## ✅ TODO
-- Release BioFlow model weights (coming soon)
-- Add inference demo and example notebooks
-
----
-
-## Environment Setup
-
-The provided conda environment is fully compatible with BioFlow and all baseline 
-models (STFlow, MERGE, TRIPLEX, and STEM), ensuring a unified and reproducible 
-experimental setup. Note that external feature extractors (UNI, CONCH) and 
-preprocessing utilities used in prior work (e.g., HEST for dataset construction) 
-are not included in this repository and should be installed separately by cloning 
-their respective GitHub repositories.
-
-```bash
-
-conda env create -n bioflow -f BioFlow.yml
-conda activate bioflow
-
+```text
+BioFLow/
+├── bioflow/
+│   ├── data/            # datasets, normalization, distributions, and sampling
+│   ├── flow/            # interpolant and prior definitions
+│   ├── model/           # spatial velocity predictor and configuration
+│   ├── utils/           # training and inference utilities
+│   ├── train.py         # training and cross-validation entry point
+│   ├── test.py          # evaluation metrics and sampling
+│   └── BioFlow.yml      # Conda environment
+├── assets/              # project-page figures
+├── index.html           # static GitHub Pages site
+└── BioFlow-paper.pdf
 ```
 
----
+## Installation
 
-## Data & Model Preparation
+```bash
+git clone https://github.com/hrterry/BioFLow.git
+cd BioFLow
 
-### Download Pre-trained Models
+conda env create -n bioflow -f bioflow/BioFlow.yml
+conda activate bioflow
+```
 
-We require pre-trained feature extractors: UNI and CONCH. To download all models at once:
+The environment covers BioFlow and the included baseline integrations. External pathology encoders and dataset-construction utilities—such as UNI, CONCH, and HEST—should be installed from their official repositories.
+
+## Data and Feature Preparation
+
+BioFlow expects HEST-compatible spatial-transcriptomics data and precomputed histology embeddings. The experiments use PRAD, READ, and HER2ST cohorts with UNI or CONCH image features.
 
 ```bash
 pip install huggingface_hub
-# Login to Hugging Face (required for UNI and CONCH access)
 huggingface-cli login
 
-# Download UNI model
-hf download MahmoodLab/UNI --local-dir models/uni
-
-# Download CONCH model
-hf download MahmoodLab/CONCH --local-dir models/conch
+huggingface-cli download MahmoodLab/UNI --local-dir models/uni
+huggingface-cli download MahmoodLab/CONCH --local-dir models/conch
 ```
 
+Access to both encoders requires accepting their respective Hugging Face terms: [UNI](https://huggingface.co/MahmoodLab/UNI) and [CONCH](https://huggingface.co/MahmoodLab/CONCH).
 
+## Training
 
-**Note:** Both UNI and CONCH models require authentication and agreement to terms of use. Please visit [MahmoodLab/UNI](https://huggingface.co/MahmoodLab/UNI) and [MahmoodLab/CONCH](https://huggingface.co/MahmoodLab/CONCH) to request access. 
-
-### Prepare Datasets
+Provide the raw dataset root, precomputed embedding root, and gene-list JSON used by your experiment:
 
 ```bash
-datasets_to_download = ["PRAD", "READ", "her2st"]
-loaded = {name: load_dataset("MahmoodLab/hest", name) for name in datasets_to_download}
+python -m bioflow.train \
+  --datasets PRAD READ her2st \
+  --source_dataroot /path/to/datasets \
+  --embed_dataroot /path/to/embeddings \
+  --gene_list /path/to/hmhvg_50genes.json \
+  --feature_encoder uni_v1_official \
+  --save_dir results/bioflow \
+  --exp_code bioflow_main
 ```
+
+Important options include `--n_sample_steps`, `--prior_sampler`, `--normalize_method`, `--n_neighbors`, and `--feature_encoder`. See `python -m bioflow.train --help` for the complete configuration.
+
+## Evaluation
+
+Evaluation is performed during training and through the utilities in `bioflow/test.py`. Reported metrics include mean Pearson correlation, per-gene Pearson correlation, mean-squared error, and R². Inference uses the support-preserving update when `use_non_negative_constraint` is enabled.
+
+## Project Status
+
+- Interactive project page: available
+- Paper PDF: available
+- Training and evaluation code: available
+- Pretrained BioFlow weights: planned
+- Inference notebook and lightweight demo: planned
+
+## Citation
+
+If you use BioFlow, please cite the accompanying paper. The final BibTeX entry will be added when the proceedings metadata is available.
+
+## License
+
+Please refer to the repository license and the licenses of external datasets and feature encoders before redistributing code, weights, or derived data.
